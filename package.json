@@ -28,5 +28,6 @@
     "chalk": "^5.1.2",
     "extract-zip": "^2.0.1",
     "fast-xml-parser": "^4.0.12"
-  }
+  },
+  "packageManager": "pnpm@7.17.1"
 }
