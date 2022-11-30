@@ -56,20 +56,20 @@ jobs:
           git push
           echo "sha=${{git rev-parse origin/master}}" >> $GITHUB_OUTPUT
 
-    - name: Create tag
-      uses: actions/github-script@v5
-      with:
-        script: |
-          github.rest.git.createRef({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            ref: 'refs/tags/v${{inputs.version}}',
-            sha: ${{steps.push.outputs.sha}}
-          })
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/v${{inputs.version}}',
+              sha: ${{steps.push.outputs.sha}}
+            })
 
-    - name: Release
-      uses: softprops/action-gh-release@v0.1.14
-      with:
-        tag_name: v${{inputs.version}}
-        name: Version ${{inputs.version}}
-        generate_release_notes: true
+      - name: Release
+        uses: softprops/action-gh-release@v0.1.14
+        with:
+          tag_name: v${{inputs.version}}
+          name: Version ${{inputs.version}}
+          generate_release_notes: true
