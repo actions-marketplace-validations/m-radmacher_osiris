@@ -112,6 +112,7 @@ function action() {
         const baseDirectory = process.env.GITHUB_WORKSPACE;
         const failOnMissingLicense = core.getBooleanInput('fail');
         const ignore = core.getInput('ignore').split(',');
+        core.debug(`Ignore: ${core.getInput('ignore')}`);
         const settings = {
             output: outputPath,
             projectFilePath: projectFilePath,
@@ -119,6 +120,7 @@ function action() {
             failOnMissingLicense: failOnMissingLicense,
             ignore: ignore,
         };
+        core.debug(JSON.stringify(settings));
         yield main(settings);
     });
 }
