@@ -48,18 +48,13 @@ jobs:
 
       - name: Push build release
         id: push
-        run: git config --local user.email "marc.radmacher@hetkamp-gmbh.de" && git config --local user.name "m-radmacher" && git add . && git commit -m "Push build release" && git push && echo "sha=${{git rev-parse origin/main}}" >> $GITHUB_OUTPUT
-
-      - name: Create tag
-        uses: actions/github-script@v5
-        with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/v${{inputs.version}}',
-              sha: ${{steps.push.outputs.sha}}
-            })
+        run: |
+          git config --global user.email marc.radmacher@hetkamp-gmbh.de
+          git config --global user.name "m-radmacher"
+          git add .
+          git commit -m "Push build release"
+          git tag -a v${{inputs.version}} -m "Release v${{inputs.version}}"
+          git push
 
       - name: Release
         uses: softprops/action-gh-release@v0.1.14
