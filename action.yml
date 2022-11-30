@@ -1,4 +1,4 @@
-name: 'osiris'
+name: 'osiris-license-manager'
 description: 'A GitHub action to extract licenses from NuGet packages'
 author: 'm-radmacher'
 inputs:
