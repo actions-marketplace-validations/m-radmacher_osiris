@@ -1,0 +1,24 @@
+name: 'osiris'
+description: 'A GitHub action to extract licenses from NuGet packages'
+author: 'm-radmacher'
+inputs:
+  path:
+    description: 'Path to the project file (.csproj)'
+    required: true
+  output:
+    description: 'Path to the output folder'
+    required: true
+  fail:
+    description: 'Fail if a license is not found'
+    required: false
+    default: false
+  ignored:
+    description: 'Comma separated list of packages to ignore (make sure to use lowercase)'
+    required: false
+    default: ''
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
+branding:
+  color: "green"
+  icon: "file-text"

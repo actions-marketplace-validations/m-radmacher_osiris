@@ -1,0 +1,75 @@
+name: Release workflow
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+          description: 'SEMVER version as string'
+          required: true 
+          type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    name: Release Project
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.2
+
+      - name: Setup Node 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install deps (with cache)
+        run: pnpm install
+
+      - name: Build for release
+        run: pnpm release
+
+      - name: Push build release
+        id: push
+        run: |
+          git config --local user.email "marc.radmacher@hetkamp-gmbh.de"
+          git config --local user.name "m-radmacher"
+          git add .
+          git commit -m "Push build release"
+          git push
+          echo "sha=${{git rev-parse origin/master}}" >> $GITHUB_OUTPUT
+
+    - name: Create tag
+      uses: actions/github-script@v5
+      with:
+        script: |
+          github.rest.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: 'refs/tags/v${{inputs.version}}',
+            sha: ${{steps.push.outputs.sha}}
+          })
+
+    - name: Release
+      uses: softprops/action-gh-release@v0.1.14
+      with:
+        tag_name: v${{inputs.version}}
+        name: Version ${{inputs.version}}
+        generate_release_notes: true

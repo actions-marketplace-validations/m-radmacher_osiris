@@ -1,0 +1,32 @@
+{
+  "name": "osiris",
+  "description": "A simple way to extract licenses from NuGet packages",
+  "license": "MIT",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "rome ci src/",
+    "format": "rome format src/",
+    "build": "tsc",
+    "package": "ncc build --source-map",
+    "clean": "rimraf dist/ lib/",
+    "release": "pnpm run clean && pnpm run build && pnpm run package",
+    "dev": "tsx watch src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "@vercel/ncc": "^0.34.0",
+    "rimraf": "^3.0.2",
+    "rome": "^10.0.1",
+    "tsx": "^3.12.1",
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "@actions/artifact": "^1.1.0",
+    "@actions/core": "^1.10.0",
+    "axios": "^1.2.0",
+    "chalk": "^5.1.2",
+    "extract-zip": "^2.0.1",
+    "fast-xml-parser": "^4.0.12"
+  }
+}
