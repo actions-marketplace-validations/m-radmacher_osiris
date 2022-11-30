@@ -7,8 +7,8 @@ export function getLicenseFromName(licenseName: string, failOnMissingLicense: bo
 	switch (licenseName) {
 		case 'MIT':
 			return mit;
-    case 'LGPL-3.0-or-later':
-      return LGPL30orlater;
+		case 'LGPL-3.0-or-later':
+			return LGPL30orlater;
 		default:
 			console.log(chalk.hex('#ff0000')(`Could not find license ${licenseName}`));
 			if (failOnMissingLicense) {
@@ -16,5 +16,5 @@ export function getLicenseFromName(licenseName: string, failOnMissingLicense: bo
 				process.exit(core.ExitCode.Failure);
 			}
 	}
-  return '';
+	return '';
 }

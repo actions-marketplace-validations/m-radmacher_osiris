@@ -24,5 +24,5 @@ export async function nuget(url: string, failOnMissingLicense: boolean): Promise
 }
 
 export function pdfsharp(): string {
-  return pdfsharpLicense;
+	return pdfsharpLicense;
 }
