@@ -12,7 +12,7 @@ inputs:
     description: 'Fail if a license is not found'
     required: false
     default: false
-  ignored:
+  ignore:
     description: 'Comma separated list of packages to ignore (make sure to use lowercase)'
     required: false
     default: ''
