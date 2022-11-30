@@ -48,13 +48,7 @@ jobs:
 
       - name: Push build release
         id: push
-        run: |
-          git config --local user.email "marc.radmacher@hetkamp-gmbh.de"
-          git config --local user.name "m-radmacher"
-          git add .
-          git commit -m "Push build release"
-          git push
-          echo "sha=${{git rev-parse origin/master}}" >> $GITHUB_OUTPUT
+        run: git config --local user.email "marc.radmacher@hetkamp-gmbh.de" && git config --local user.name "m-radmacher" && git add . && git commit -m "Push build release" && git push && echo "sha=${{git rev-parse origin/main}}" >> $GITHUB_OUTPUT
 
       - name: Create tag
         uses: actions/github-script@v5
